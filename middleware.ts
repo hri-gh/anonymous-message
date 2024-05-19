@@ -1,29 +1,30 @@
-import { auth } from "@/auth"
 import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+export { default } from 'next-auth/middleware';
 
-export default auth((req) => {
-    const { nextUrl } = req;
-    const isLoggedIn = !!req.auth;
 
+export async function middleware(request: NextRequest) {
+    const token = await getToken({ req: request });
+    const url = request.nextUrl;
 
     // Redirect to dashboard if the user is already authenticated
     // and trying to access sign-in, sign-up, or home page
     if (
-        isLoggedIn &&
-        (nextUrl.pathname.startsWith('/sign-in') ||
-            nextUrl.pathname.startsWith('/sign-up') ||
-            nextUrl.pathname.startsWith('/verify') ||
-            nextUrl.pathname === '/')
+        token &&
+        (url.pathname.startsWith('/sign-in') ||
+            url.pathname.startsWith('/sign-up') ||
+            url.pathname.startsWith('/verify') ||
+            url.pathname === '/')
     ) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
+        return NextResponse.redirect(new URL('/dashboard', request.url));
     }
 
-    if (!isLoggedIn && nextUrl.pathname.startsWith('/dashboard')) {
-        return Response.redirect(new URL('/sign-in', nextUrl));
+    if (!token && url.pathname.startsWith('/dashboard')) {
+        return NextResponse.redirect(new URL('/sign-in', request.url));
     }
 
     return NextResponse.next();
-})
+}
 
 // Optionally, don't invoke Middleware on some paths
 export const config = {
