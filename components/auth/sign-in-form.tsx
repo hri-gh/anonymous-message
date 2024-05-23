@@ -1,22 +1,23 @@
-// import { signIn } from "@/auth"
+"use client"
 
-// export function SignInForm() {
-//     return (
-//         <form
-//             action={async (formData) => {
-//                 "use server"
-//                 await signIn("credentials", formData)
-//             }}
-//         >
-//             <label>
-//                 Email
-//                 <input name="email" type="email" />
-//             </label>
-//             <label>
-//                 Password
-//                 <input name="password" type="password" />
-//             </label>
-//             <button>Sign In</button>
-//         </form>
-//     )
-// }
+import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import Link from 'next/link'
+
+
+// COMPONENTS IMPORT
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+
+
+const formSchema = z.object({
+    username: z.string().min(2).max(50),
+})
