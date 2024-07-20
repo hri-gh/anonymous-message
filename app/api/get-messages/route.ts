@@ -39,15 +39,16 @@ export async function GET(request: Request) {
         ])
 
 
-        if (!user || user.length === 0) {
+        if (!user) {
             return Response.json(
-                { message: 'User not found', success: false },
+                // Error found
+                { message: 'User zzzz not found', success: false },
                 { status: 404 }
             );
         }
 
         return Response.json(
-            { messages: user[0].messages },
+            { messages: user[0]?.messages },// Error found
             {
                 status: 200,
             }
