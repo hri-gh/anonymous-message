@@ -1,16 +1,15 @@
-// import React from 'react'
-// import { auth } from "@/auth"
+import React from 'react'
 
-// const ProfilePage = async () => {
-//     const session = await auth()
 
-//     return (
-//         <>
-//         <h1>Welcome {session?.user.username}!</h1>
-//         <p>You are logged in.</p>
+const ProfilePage = async () => {
 
-//         </>
-//     )
-// }
+    return (
+        <>
+        <h1>Welcome</h1>
+        <p>You are logged in.</p>
 
-// export default ProfilePage
+        </>
+    )
+}
+
+export default ProfilePage
